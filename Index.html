@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PORTAL DO MESTRE DHAVYSON</title>
+    <style>
+        :root { --blue: #1e40af; --gold: #f59e0b; --dark: #0f172a; --light: #f8fafc; }
+        body { font-family: sans-serif; background: var(--dark); color: var(--light); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; }
+        
+        .assinatura-topo { font-size: 10px; color: var(--gold); text-align: center; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px; }
+
+        .container { width: 100%; max-width: 500px; background: #1e293b; border-radius: 15px; border: 2px solid var(--blue); padding: 15px; display: flex; flex-direction: column; height: 90vh; box-sizing: border-box; }
+        
+        h1 { color: var(--gold); text-align: center; font-size: 20px; margin: 5px 0; }
+        
+        #chat-box { flex-grow: 1; overflow-y: auto; background: #0f172a; border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; display: flex; flex-direction: column; gap: 10px; }
+        
+        .msg { padding: 10px 14px; border-radius: 12px; line-height: 1.4; max-width: 85%; font-size: 15px; word-wrap: break-word; }
+        .bot { background: var(--blue); color: white; align-self: flex-start; }
+        .user { background: var(--gold); color: black; font-weight: bold; align-self: flex-end; }
+        
+        /* Área de Input Otimizada para Android */
+        .input-area { display: flex; gap: 8px; align-items: center; }
+        input { flex: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--blue); background: #0f172a; color: white; font-size: 16px; outline: none; }
+        
+        .btn-enviar { background: var(--gold); border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="assinatura-topo">
+        CRIADO E DESENVOLVIDO POR JOSÉ DIVINO PRADO DA LAPA - ENGENHEIRO SÊNIOR
+    </div>
+
+    <div class="container">
+        <h1>🎓 Portal do Dhavyson</h1>
+        
+        <div id="chat-box">
+            <div class="msg bot">Olá! Identifique-se por favor: É o Deivison que está aí?</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="pergunta" placeholder="Digite aqui..." inputmode="text">
+            <button class="btn-enviar" onclick="perguntar()">ENTER</button>
+        </div>
+    </div>
+
+    <script>
+        let identificado = false;
+        const input = document.getElementById('pergunta');
+        const chat = document.getElementById('chat-box');
+
+        // Escuta o "Enter" do teclado virtual do Android
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                perguntar();
+            }
+        });
+
+        function perguntar() {
+            const texto = input.value.trim();
+            const p = texto.toLowerCase();
+            
+            if(!texto) return;
+
+            chat.innerHTML += `<div class="msg user">${texto}</div>`;
+            input.value = "";
+            chat.scrollTop = chat.scrollHeight;
+            
+            setTimeout(() => {
+                let resposta = "";
+                if (!identificado) {
+                    if (p === "sim" || p.includes("sou eu") || p.includes("deivison")) {
+                        identificado = true;
+                        resposta = "Olá, meu querido sobrinho do senhor José Divino! Como posso te ajudar hoje na sua jornada de Educação Física?";
+                    } else {
+                        resposta = "Acesso restrito. Confirme se é o Deivison.";
+                    }
+                } else {
+                    if(p.includes("estudar")) {
+                        resposta = "Dhavyson, foque em Anatomia e Fisiologia agora. Quer saber por onde começar?";
+                    } else if(p.includes("treino")) {
+                        resposta = "O movimento é sua ferramenta! Estude a biomecânica dos exercícios.";
+                    } else {
+                        resposta = "Excelente, Dhavyson! Como o Engenheiro José Divino sempre diz: o conhecimento e a determinação levam ao sucesso!";
+                    }
+                }
+                chat.innerHTML += `<div class="msg bot">${resposta}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 500);
+        }
+    </script>
+</body>
+</html>
